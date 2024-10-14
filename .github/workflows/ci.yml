@@ -20,4 +20,13 @@ jobs:
         uses: terramate-io/terramate-action@v1
 
       - name: Run generate tests
-        run: terramate generate
+        shell: bash
+        run: |
+          while :
+          do 
+            terramate generate --detailed-exit-code
+            status=$?
+            if [ "${status}" -ne "2" ]; then
+              exit ${status};
+            fi
+          done
